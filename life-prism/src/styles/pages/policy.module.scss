@@ -1,0 +1,117 @@
+@import '@/styles/variables';
+@import '@/styles/mixins';
+
+.policyContainer {
+  @include container;
+  padding: $spacing-8 0;
+
+  .title {
+    @include heading-style;
+    font-size: $font-size-3xl;
+    margin-bottom: $spacing-6;
+    color: $color-purple-dark;
+  }
+
+  .sectionTitle {
+    @include heading-style;
+    font-size: $font-size-2xl;
+    margin-top: $spacing-8;
+    margin-bottom: $spacing-4;
+    color: $color-purple-medium;
+  }
+
+  .subsectionTitle {
+    @include heading-style;
+    font-size: $font-size-xl;
+    margin-top: $spacing-6;
+    margin-bottom: $spacing-3;
+    color: $color-purple-light;
+  }
+
+  .paragraph {
+    @include body-style;
+    margin-bottom: $spacing-4;
+  }
+
+  .list {
+    list-style-type: disc;
+    padding-left: $spacing-6;
+    margin-bottom: $spacing-4;
+
+    .listItem {
+      @include body-style;
+      margin-bottom: $spacing-2;
+    }
+  }
+}
+
+.summary {
+  background-color: $color-egg-shell;
+  border-radius: $border-radius-lg;
+  padding: $spacing-6;
+  margin-bottom: $spacing-8;
+  box-shadow: $shadow-md;
+
+  .summaryTitle {
+    color: $color-purple-dark;
+    margin-top: 0;
+  }
+
+  .summaryList {
+    list-style-type: none;
+    padding-left: 0;
+
+    .summaryListItem {
+      position: relative;
+      padding-left: $spacing-6;
+      margin-bottom: $spacing-3;
+
+      &::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: $color-success;
+        font-weight: $font-weight-bold;
+      }
+    }
+  }
+}
+
+.lastUpdated {
+  @include body-style;
+  font-style: italic;
+  color: $color-gray-medium;
+  margin-top: $spacing-8;
+}
+
+// Responsive adjustments
+@include respond-to($breakpoint-md) {
+  .policyContainer {
+    padding: $spacing-12 0;
+
+    .title {
+      font-size: $font-size-4xl;
+    }
+
+    .sectionTitle {
+      font-size: $font-size-3xl;
+    }
+
+    .subsectionTitle {
+      font-size: $font-size-2xl;
+    }
+  }
+}
+
+// Print styles
+@media print {
+  .policyContainer {
+    padding: 0;
+  }
+
+  .summary {
+    background-color: transparent;
+    box-shadow: none;
+    border: 1px solid $color-gray-light;
+  }
+}

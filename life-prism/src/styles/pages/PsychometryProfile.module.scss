@@ -1,0 +1,338 @@
+@import '@/styles/variables';
+@import '@/styles/mixins';
+
+.psychometryProfile {
+  @include container;
+  @include font-smoothing;
+  background-color: $color-background-light;
+  color: $color-text-primary;
+  padding: $spacing-6 $spacing-4;
+  
+  @include respond-to('md') {
+    padding: $spacing-10 $spacing-6;
+  }
+
+  h1 {
+    @include heading-style;
+    @include gradient-text($gradient-primary);
+    font-size: $font-size-3xl;
+    text-align: center;
+    margin-bottom: $spacing-8;
+
+    @include respond-to('md') {
+      font-size: $font-size-4xl;
+    }
+  }
+
+  h2 {
+    @include heading-style;
+    font-size: $font-size-2xl;
+    color: $color-purple-medium;
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    margin-bottom: $spacing-6;
+
+    svg {
+      color: $color-accent;
+    }
+  }
+
+  h3 {
+    @include heading-style;
+    font-size: $font-size-xl;
+    color: $color-teal-medium;
+    margin-bottom: $spacing-4;
+  }
+
+  .loadingContainer,
+  .errorContainer,
+  .emptyContainer {
+    @include flex-center;
+    @include flex-column;
+    min-height: 400px;
+    text-align: center;
+
+    svg {
+      font-size: $font-size-4xl;
+      color: $color-accent;
+      margin-bottom: $spacing-4;
+    }
+
+    h2 {
+      font-size: $font-size-2xl;
+      margin-bottom: $spacing-2;
+    }
+
+    p {
+      @include body-style;
+      margin-bottom: $spacing-4;
+    }
+
+    button {
+      @include button-reset;
+      @include button-gradient($color-orange-medium, $color-teal-medium);
+      padding: $spacing-3 $spacing-6;
+      border-radius: $border-radius-full;
+      color: $color-white;
+      font-weight: $font-weight-semibold;
+      @include transition(transform, box-shadow);
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: $shadow-md;
+      }
+
+      &:active {
+        transform: translateY(1px);
+      }
+    }
+  }
+
+  .spinner {
+    animation: spin 1s linear infinite;
+    color: $color-accent;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .profileContainer {
+    @include card-style;
+    padding: $spacing-6;
+    margin-top: $spacing-8;
+
+    @include respond-to('md') {
+      padding: $spacing-8;
+    }
+  }
+
+  .chartSection {
+    margin-bottom: $spacing-10;
+  }
+
+  .radarChart {
+    @include aspect-ratio(16, 9);
+    max-width: 600px;
+    margin: 0 auto;
+   
+
+    svg {
+      overflow: visible;
+    }
+
+    text {
+      fill: $color-text-secondary;
+      font-size: $font-size-xs;
+    }
+
+    line {
+      stroke: $color-border;
+    }
+
+    polygon {
+      fill-opacity: 0.2;
+      stroke-width: 2;
+    }
+  }
+
+  .barChart {
+    .barChartItem {
+      display: flex;
+      align-items: center;
+      margin-bottom: $spacing-3;
+    }
+  
+    .barLabel {
+      flex: 0 0 150px; // Increase the width for labels
+      text-align: right;
+      margin-right: $spacing-3;
+      font-size: $font-size-sm;
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  
+    .barWrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+  
+    .barFill {
+      height: 20px;
+      background-color: $color-teal-medium;
+      border-radius: $border-radius-full;
+      transition: width 0.3s ease-in-out;
+    }
+  
+    .barValue {
+      margin-left: $spacing-2;
+      font-weight: $font-weight-bold;
+      min-width: 24px; // Ensure consistent spacing
+      text-align: right;
+    }
+  }
+
+  .section {
+    margin-bottom: $spacing-8;
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      @include body-style;
+      margin-bottom: $spacing-3;
+    }
+  }
+
+  .issueItem,
+  .goalItem,
+  .mechanismItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: $spacing-3;
+
+    span {
+      flex: 1;
+      margin-right: $spacing-4;
+    }
+  }
+
+  .severityBar,
+  .progressBar,
+  .effectivenessBar {
+    height: 8px;
+    border-radius: $border-radius-full;
+    flex: 0 0 200px;
+  }
+
+  .severityBar {
+    background-color: $color-danger;
+  }
+
+  .progressBar {
+    background-color: $color-success;
+  }
+
+  .effectivenessBar {
+    background-color: $color-info;
+  }
+
+  .resilienceList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-2;
+
+    li {
+      @include glassmorphism;
+      padding: $spacing-2 $spacing-4;
+      border-radius: $border-radius-full;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+    }
+  }
+
+  .progressNotes {
+    @include body-style;
+    background-color: $color-off-white;
+    border-left: 4px solid $color-teal-medium;
+    padding: $spacing-4;
+    border-radius: 0 $border-radius-md $border-radius-md 0;
+    font-style: italic;
+  }
+}
+
+// Dark mode styles
+@media (prefers-color-scheme: dark) {
+  .psychometryProfile {
+    background-color: $color-background-dark;
+    color: $color-text-dark;
+
+    .profileContainer {
+      background-color: $color-card-background-dark;
+    }
+
+    .radarChart,
+    .barChart {
+      text {
+        fill: $color-text-dark;
+      }
+
+      line {
+        stroke: rgba($color-border-dark, 0.3);
+      }
+    }
+
+    .progressNotes {
+      background-color: rgba($color-off-black, 0.3);
+    }
+
+    .resilienceList li {
+      background-color: rgba($color-purple-light, 0.1);
+    }
+
+    .severityBar {
+      background-color: darken($color-danger, 10%);
+    }
+
+    .progressBar {
+      background-color: darken($color-success, 10%);
+    }
+
+    .effectivenessBar {
+      background-color: darken($color-info, 10%);
+    }
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.fadeIn {
+  animation: fadeIn $animation-duration-normal $animation-timing-ease-out;
+}
+
+.slideUp {
+  animation: slideUp $animation-duration-normal $animation-timing-ease-out;
+}
+
+// Accessibility
+.visually-hidden {
+  @include visually-hidden;
+}
+
+// Print styles
+@media print {
+  .psychometryProfile {
+    background-color: $color-white;
+    color: $color-black;
+    
+    .profileContainer {
+      box-shadow: none;
+      border: 1px solid $color-border;
+    }
+
+    .radarChart,
+    .barChart {
+      page-break-inside: avoid;
+    }
+
+    .resilienceList li {
+      border: 1px solid $color-border;
+    }
+  }
+}

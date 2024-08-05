@@ -1,0 +1,192 @@
+@import '@/styles/variables';
+@import '@/styles/mixins';
+
+.sessionSummary {
+  @include container;
+  @include flex-column;
+  @include glass-effect;
+  padding: $spacing-lg;
+  margin-top: $spacing-xl;
+  color: $color-text-primary;
+
+  h1 {
+    @include heading-style;
+    @include gradient-text($gradient-primary);
+    font-size: $font-size-3xl;
+    margin-bottom: $spacing-md;
+    text-align: center;
+  }
+
+  .sessionDate {
+    @include body-style;
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+    text-align: center;
+    margin-bottom: $spacing-lg;
+  }
+
+  .summaryContent {
+    @include fade-in($duration: $transition-duration-normal);
+  }
+
+  .keyInfo {
+    @include card-style;
+    padding: $spacing-md;
+    margin-bottom: $spacing-lg;
+
+    h2 {
+      @include heading-style;
+      font-size: $font-size-xl;
+      margin-bottom: $spacing-sm;
+      color: $color-primary;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        @include body-style;
+        @include slide-up($duration: $transition-duration-fast);
+        margin-bottom: $spacing-sm;
+        padding-left: $spacing-md;
+        position: relative;
+
+        &::before {
+          content: '•';
+          color: $color-accent;
+          position: absolute;
+          left: 0;
+        }
+      }
+    }
+
+    p {
+      @include body-style;
+      margin-bottom: $spacing-sm;
+    }
+  }
+
+  .summarySection,
+  .analysisSection {
+    @include card-style;
+    padding: $spacing-md;
+    margin-bottom: $spacing-lg;
+
+    h2 {
+      @include heading-style;
+      font-size: $font-size-xl;
+      margin-bottom: $spacing-sm;
+      color: $color-primary;
+    }
+
+    p {
+      @include body-style;
+      margin-bottom: $spacing-md;
+    }
+  }
+
+  .recommendations {
+    @include card-style;
+    padding: $spacing-md;
+    margin-bottom: $spacing-lg;
+
+    h2 {
+      @include heading-style;
+      font-size: $font-size-xl;
+      margin-bottom: $spacing-sm;
+      color: $color-primary;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        @include body-style;
+        @include slide-up($duration: $transition-duration-fast);
+        margin-bottom: $spacing-sm;
+        padding-left: $spacing-md;
+        position: relative;
+
+        &::before {
+          content: '→';
+          color: $color-accent;
+          position: absolute;
+          left: 0;
+        }
+      }
+    }
+  }
+
+  .progressBar {
+    background-color: $color-gray-light;
+    border-radius: $border-radius-full;
+    height: 8px;
+    margin-bottom: $spacing-sm;
+    overflow: hidden;
+
+    .progressFill {
+      background-color: $color-accent;
+      height: 100%;
+      transition: width $transition-duration-normal $transition-timing-ease;
+    }
+  }
+
+  .readMoreButton {
+    @include button-reset;
+    @include interactive-element;
+    color: $color-accent;
+    font-weight: $font-weight-medium;
+    margin-top: $spacing-sm;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .error {
+    @include body-style;
+    color: $color-danger;
+    text-align: center;
+    margin-top: $spacing-lg;
+  }
+}
+
+@include media-breakpoint-down('md') {
+  .sessionSummary {
+    padding: $spacing-md;
+
+    h1 {
+      font-size: $font-size-2xl;
+    }
+
+    .keyInfo,
+    .summarySection,
+    .analysisSection,
+    .recommendations {
+      padding: $spacing-sm;
+    }
+  }
+}
+
+@include media-breakpoint-down('sm') {
+  .sessionSummary {
+    padding: $spacing-sm;
+
+    h1 {
+      font-size: $font-size-xl;
+    }
+
+    .keyInfo,
+    .summarySection,
+    .analysisSection,
+    .recommendations {
+      h2 {
+        font-size: $font-size-lg;
+      }
+    }
+  }
+}

@@ -1,0 +1,280 @@
+@import '@/styles/variables';
+@import '@/styles/mixins';
+
+.featureCard {
+  position: relative;
+  background-color: var(--color-card-background);
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+  transition: all $transition-duration-normal $transition-timing-ease;
+  @include glassmorphism;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $shadow-lg;
+  }
+
+  &.clickable {
+    cursor: pointer;
+  }
+}
+
+.content {
+  padding: $spacing-6;
+}
+
+.media {
+  position: relative;
+  overflow: hidden;
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+  margin: $spacing-6 auto;
+  background: $gradient-accent;
+  border-radius: 50%;
+  box-shadow: $shadow-md;
+
+  img {
+    filter: drop-shadow(0 2px 4px rgba($color-black, 0.1));
+  }
+}
+
+.image {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  
+  img {
+    object-fit: cover;
+  }
+}
+
+.title {
+  @include heading-style;
+  font-size: $font-size-2xl;
+  color: var(--color-text-primary);
+  margin-bottom: $spacing-3;
+}
+
+.description {
+  @include body-style;
+  color: var(--color-text-secondary);
+  margin-bottom: $spacing-4;
+}
+
+.expandToggle {
+  @include button-reset;
+  display: flex;
+  align-items: center;
+  color: var(--color-text-accent);
+  font-weight: $font-weight-semibold;
+  transition: color $transition-duration-fast $transition-timing-ease;
+
+  &:hover {
+    color: var(--color-text-accent-hover);
+  }
+
+  svg {
+    margin-left: $spacing-2;
+    transition: transform $transition-duration-fast $transition-timing-ease;
+  }
+
+  &:hover svg {
+    transform: translateY(2px);
+  }
+}
+
+.expandedContent {
+  margin-top: $spacing-4;
+}
+
+.details {
+  @include body-style;
+  color: var(--color-text-secondary);
+  margin-bottom: $spacing-4;
+}
+
+.benefits {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 $spacing-4 0;
+
+  li {
+    display: flex;
+    align-items: center;
+    color: var(--color-text-secondary);
+    margin-bottom: $spacing-2;
+
+    &::before {
+      content: '✓';
+      display: inline-block;
+      margin-right: $spacing-2;
+      color: var(--color-success);
+      font-weight: $font-weight-bold;
+    }
+  }
+}
+
+.cta {
+  width: 100%;
+  margin-top: $spacing-4;
+}
+
+// Variants
+.default {
+  background-color: var(--color-card-background);
+}
+
+.highlight {
+  background: $gradient-primary;
+
+  .title,
+  .description,
+  .expandToggle,
+  .details,
+  .benefits li {
+    color: $color-white;
+  }
+
+  .benefits li::before {
+    color: $color-teal-light;
+  }
+}
+
+.minimal {
+  background-color: transparent;
+  box-shadow: none;
+
+  &:hover {
+    background-color: var(--color-card-background-hover);
+  }
+}
+
+.expanded {
+  .content {
+    padding-bottom: $spacing-4;
+  }
+}
+
+// Layouts
+.vertical {
+  display: flex;
+  flex-direction: column;
+
+  .media {
+    width: 100%;
+  }
+}
+
+.horizontal {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .media {
+    flex: 0 0 200px;
+    height: 100%;
+  }
+
+  .content {
+    flex: 1;
+  }
+
+  @include respond-to($breakpoint-md) {
+    flex-direction: column;
+
+    .media {
+      width: 100%;
+      height: 200px;
+    }
+  }
+}
+
+// Animations
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.featureCard {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+// Dark mode adjustments
+@media (prefers-color-scheme: dark) {
+  .featureCard {
+    --color-card-background: #{rgba($color-off-black, 0.8)};
+    --color-card-background-hover: #{rgba($color-off-black, 0.9)};
+    --color-text-primary: #{$color-off-white};
+    --color-text-secondary: #{rgba($color-off-white, 0.7)};
+    --color-text-accent: #{$color-teal-light};
+    --color-text-accent-hover: #{lighten($color-teal-light, 10%)};
+  }
+
+  .highlight {
+    --color-card-background: #{$color-purple-dark};
+    --color-card-background-hover: #{darken($color-purple-dark, 5%)};
+  }
+}
+
+// Light mode
+@media (prefers-color-scheme: light) {
+  .featureCard {
+    --color-card-background: #{rgba($color-white, 0.8)};
+    --color-card-background-hover: #{rgba($color-white, 0.9)};
+    --color-text-primary: #{$color-purple-dark};
+    --color-text-secondary: #{rgba($color-purple-dark, 0.7)};
+    --color-text-accent: #{$color-purple-medium};
+    --color-text-accent-hover: #{darken($color-purple-medium, 10%)};
+  }
+
+  .highlight {
+    --color-card-background: #{$gradient-primary};
+    --color-card-background-hover: #{darken($color-purple-medium, 5%)};
+  }
+}
+
+// Accessibility
+@media (prefers-reduced-motion: reduce) {
+  .featureCard,
+  .expandToggle svg {
+    transition: none;
+  }
+
+  .featureCard {
+    animation: none;
+  }
+}
+
+// Print styles
+@media print {
+  .featureCard {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    box-shadow: none !important;
+    background: none !important;
+    color: $color-black !important;
+  }
+
+  .expandToggle,
+  .cta {
+    display: none !important;
+  }
+
+  .expandedContent {
+    display: block !important;
+    height: auto !important;
+    opacity: 1 !important;
+  }
+}

@@ -1,0 +1,267 @@
+@import '@/styles/variables';
+@import '@/styles/mixins';
+
+.button {
+  @include flex-center;
+  position: relative;
+  font-family: $font-family-heading;
+  font-weight: $font-weight-semibold;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all $transition-duration-normal $transition-timing-ease;
+  border: none;
+  outline: none;
+  overflow: hidden;
+
+  &:focus-visible {
+    @include focus-outline;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+// Variants
+.primary {
+  background: $gradient-primary;
+  color: $color-white;
+  box-shadow: $shadow-md;
+
+  &:hover:not(:disabled) {
+    box-shadow: $shadow-lg;
+    transform: translateY(-2px);
+  }
+
+  &:active:not(:disabled) {
+    box-shadow: $shadow-sm;
+    transform: translateY(1px);
+  }
+}
+
+.secondary {
+  background: $color-white;
+  color: $color-purple-dark;
+  border: 2px solid $color-purple-medium;
+
+  &:hover:not(:disabled) {
+    background: rgba($color-purple-light, 0.1);
+  }
+
+  &:active:not(:disabled) {
+    background: rgba($color-purple-light, 0.2);
+  }
+}
+
+.tertiary {
+  background: transparent;
+  color: $color-purple-dark;
+
+  &:hover:not(:disabled) {
+    background: rgba($color-purple-light, 0.1);
+  }
+
+  &:active:not(:disabled) {
+    background: rgba($color-purple-light, 0.2);
+  }
+}
+
+.ghost {
+  background: transparent;
+  color: $color-purple-dark;
+
+  &:hover:not(:disabled) {
+    background: rgba($color-purple-light, 0.05);
+  }
+
+  &:active:not(:disabled) {
+    background: rgba($color-purple-light, 0.1);
+  }
+}
+
+.danger {
+  background: $color-danger;
+  color: $color-white;
+
+  &:hover:not(:disabled) {
+    background: darken($color-danger, 10%);
+  }
+
+  &:active:not(:disabled) {
+    background: darken($color-danger, 15%);
+  }
+}
+
+// Sizes
+.small {
+  font-size: $font-size-sm;
+  padding: $spacing-2 $spacing-3;
+  height: 32px;
+}
+
+.medium {
+  font-size: $font-size-md;
+  padding: $spacing-3 $spacing-4;
+  height: 40px;
+}
+
+.large {
+  font-size: $font-size-lg;
+  padding: $spacing-4 $spacing-6;
+  height: 48px;
+}
+
+// Shapes
+.rectangle {
+  border-radius: $border-radius-sm;
+}
+
+.rounded {
+  border-radius: $border-radius-md;
+}
+
+.pill {
+  border-radius: $border-radius-full;
+}
+
+// Full width
+.fullWidth {
+  width: 100%;
+}
+
+// Loading state
+.loading {
+  color: transparent !important;
+  pointer-events: none;
+
+  .loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba($color-white, 0.3);
+    border-radius: 50%;
+    border-top-color: $color-white;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+}
+
+// Icon positioning
+.iconLeft {
+  margin-right: $spacing-2;
+}
+
+.iconRight {
+  margin-left: $spacing-2;
+}
+
+// Text
+.text {
+  position: relative;
+  z-index: 1;
+}
+
+// Hover effect
+.button:not(:disabled):hover::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba($color-white, 0.1);
+  pointer-events: none;
+}
+
+// Active effect
+.button:not(:disabled):active::after {
+  background: rgba($color-black, 0.1);
+}
+
+// Dark mode adjustments
+@media (prefers-color-scheme: dark) {
+  .secondary {
+    background: $color-off-black;
+    color: $color-teal-light;
+    border-color: $color-teal-medium;
+
+    &:hover:not(:disabled) {
+      background: rgba($color-teal-light, 0.1);
+    }
+
+    &:active:not(:disabled) {
+      background: rgba($color-teal-light, 0.2);
+    }
+  }
+
+  .tertiary,
+  .ghost {
+    color: $color-teal-light;
+
+    &:hover:not(:disabled) {
+      background: rgba($color-teal-light, 0.1);
+    }
+
+    &:active:not(:disabled) {
+      background: rgba($color-teal-light, 0.2);
+    }
+  }
+}
+
+// Accessibility
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+
+  .loading .loader {
+    animation: none;
+  }
+}
+
+// High contrast mode
+@media (forced-colors: active) {
+  .button {
+    border: 2px solid ButtonText;
+  }
+
+  .primary,
+  .danger {
+    forced-color-adjust: none;
+    color: ButtonText;
+    background: ButtonFace;
+  }
+}
+
+// Print styles
+@media print {
+  .button {
+    background: none !important;
+    color: $color-black !important;
+    border: 1px solid $color-black !important;
+    box-shadow: none !important;
+  }
+}
+
+// Centered positioning
+.centered {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// If the button is both centered and fullWidth, we need to adjust the styling
+.centered.fullWidth {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+}

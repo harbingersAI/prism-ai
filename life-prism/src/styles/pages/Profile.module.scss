@@ -1,0 +1,168 @@
+@import '@/styles/variables';
+@import '@/styles/mixins';
+
+.dashboardContainer {
+  @include container;
+  @include flex-column;
+  min-height: 100vh;
+  padding-top: $spacing-8;
+  padding-bottom: $spacing-8;
+}
+
+.pageTitle {
+  @include heading-style;
+  @include responsive-font-size($font-size-2xl, $font-size-4xl);
+  color: $color-primary;
+  margin-bottom: $spacing-6;
+}
+
+.profileDisplay, .profileForm {
+  @include card-style;
+  padding: $spacing-6;
+  margin-bottom: $spacing-6;
+}
+
+.profileDisplay {
+  h2 {
+    @include heading-style;
+    font-size: $font-size-xl;
+    margin-bottom: $spacing-4;
+  }
+
+  p {
+    @include body-style;
+    margin-bottom: $spacing-2;
+  }
+}
+
+.formGroup {
+  margin-bottom: $spacing-4;
+
+  label {
+    display: block;
+    margin-bottom: $spacing-2;
+    font-weight: $font-weight-medium;
+  }
+
+  input[type="text"], input[type="email"] {
+    width: 100%;
+    padding: $spacing-2;
+    border: 1px solid $color-border;
+    border-radius: $border-radius-md;
+    font-size: $font-size-md;
+
+    &:focus {
+      @include focus-outline;
+    }
+  }
+
+  input[type="checkbox"] {
+    margin-right: $spacing-2;
+  }
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-start;
+  gap: $spacing-4;
+}
+
+.editButton, .saveButton, .cancelButton, .logoutButton {
+  @include button-reset;
+  padding: $spacing-2 $spacing-4;
+  border-radius: $border-radius-md;
+  font-weight: $font-weight-medium;
+  transition: all $transition-duration-fast $transition-timing-ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.editButton, .saveButton {
+  background-color: $color-primary;
+  color: $color-white;
+
+  &:hover {
+    background-color: darken($color-primary, 10%);
+  }
+}
+
+.cancelButton {
+  background-color: $color-gray-light;
+  color: $color-text-primary;
+
+  &:hover {
+    background-color: darken($color-gray-light, 10%);
+  }
+}
+
+.logoutButton {
+  background-color: $color-danger;
+  color: $color-white;
+  margin-top: $spacing-4;
+
+  &:hover {
+    background-color: darken($color-danger, 10%);
+  }
+}
+
+.loadingContainer {
+  @include flex-center;
+  @include flex-column;
+  height: 100vh;
+  width: 100vw;
+}
+
+.loadingSpinner {
+  width: $spacing-12;
+  height: $spacing-12;
+  border: 4px solid $color-border;
+  border-top: 4px solid $color-primary;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.errorContainer {
+  @include flex-center;
+  height: 100vh;
+  color: $color-danger;
+  font-size: $font-size-lg;
+}
+
+@media (prefers-color-scheme: dark) {
+  .dashboardContainer {
+    background-color: $color-background-dark;
+    color: $color-text-dark;
+  }
+
+  .profileDisplay, .profileForm {
+    background-color: $color-card-background-dark;
+  }
+
+  .formGroup {
+    input[type="text"], input[type="email"] {
+      background-color: $color-background-dark;
+      color: $color-text-dark;
+      border-color: $color-border-dark;
+    }
+  }
+
+  .cancelButton {
+    background-color: $color-gray-dark;
+    color: $color-text-dark;
+
+    &:hover {
+      background-color: lighten($color-gray-dark, 10%);
+    }
+  }
+}

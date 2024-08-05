@@ -1,0 +1,67 @@
+@import '@/styles/variables';
+@import '@/styles/mixins';
+
+.summaryStatus {
+  @include flex-center;
+  @include glass-effect;
+  padding: $spacing-md;
+  margin-bottom: $spacing-lg;
+  border-radius: $border-radius-lg;
+
+  p {
+    @include body-style;
+    margin: 0;
+    text-align: center;
+  }
+}
+
+.generatingStatus {
+  @include flex-column;
+  @include fade-in($duration: $transition-duration-normal);
+  align-items: center;
+  text-align: center;
+
+  p {
+    @include body-style;
+    margin-bottom: $spacing-md;
+    color: $color-text-secondary;
+  }
+}
+
+.retryButton {
+  @include button-reset;
+  @include interactive-element;
+  @include button-gradient($color-primary, $color-secondary);
+  color: $color-white;
+  font-weight: $font-weight-medium;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $border-radius-md;
+  transition: all $transition-duration-fast $transition-timing-ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+.error {
+  @include body-style;
+  color: $color-danger;
+  text-align: center;
+  margin-top: $spacing-md;
+}
+
+@include media-breakpoint-down('sm') {
+  .summaryStatus {
+    padding: $spacing-sm;
+  }
+
+  .retryButton {
+    padding: $spacing-sm;
+    font-size: $font-size-sm;
+  }
+}

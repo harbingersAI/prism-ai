@@ -1,0 +1,72 @@
+@import '@/styles/variables';
+@import '@/styles/mixins';
+
+.psychometryProfileContainer {
+  @include container;
+  padding: $spacing-6 $spacing-4;
+  
+  @include respond-to('md') {
+    padding: $spacing-10 $spacing-6;
+  }
+}
+
+.psychometryProfileContent {
+  @include card-style;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  
+  @include respond-to('lg') {
+    flex-direction: row;
+  }
+}
+
+.profileInfo {
+  padding: $spacing-6;
+  background: $gradient-primary;
+  color: $color-white;
+  
+  @include respond-to('lg') {
+    max-width: 400px;
+    border-radius: $border-radius-lg 0 0 $border-radius-lg;
+  }
+
+  h1 {
+    @include heading-style;
+    font-size: $font-size-2xl;
+    margin-bottom: $spacing-4;
+    color: $color-white;
+  }
+
+  p {
+    @include body-style;
+    font-size: $font-size-md;
+    color: rgba($color-white, 0.9);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .psychometryProfileContent {
+    background-color: $color-card-background-dark;
+  }
+}
+
+@media print {
+  .psychometryProfileContainer {
+    padding: 0;
+  }
+
+  .psychometryProfileContent {
+    box-shadow: none;
+  }
+
+  .profileInfo {
+    background: none;
+    color: $color-text-primary;
+
+    h1, p {
+      color: $color-text-primary;
+    }
+  }
+}

@@ -1,0 +1,33 @@
+# General node_modules
+node_modules/
+
+# Server-specific files
+/server/.env
+
+# Next.js specific files and folders
+/life-prism/.next/
+/life-prism/out/
+/life-prism/build/
+/life-prism/.env.local
+/life-prism/.env.development.local
+/life-prism/.env.test.local
+/life-prism/.env.production.local
+/life-prism/.vercel
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Operating system-specific files
+.DS_Store
+Thumbs.db
+
+# Other files you might want to ignore
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignore Mac system files
+*.DS_Store

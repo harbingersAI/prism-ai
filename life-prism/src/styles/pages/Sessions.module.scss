@@ -1,0 +1,173 @@
+@import '@/styles/variables';
+@import '@/styles/mixins';
+
+.sessionsPage {
+  @include container;
+  min-height: 100vh;
+  background-color: $color-background-light;
+  color: $color-text-primary;
+  padding: $spacing-8 0;
+}
+
+.pageTitle {
+  @include heading-style;
+  font-size: $font-size-2xl;
+  color: $color-primary;
+  text-align: center;
+  margin-bottom: $spacing-8;
+}
+
+.dateGroup {
+  background-color: $color-card-background;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-md;
+  margin-bottom: $spacing-8;
+  padding: $spacing-6;
+}
+
+.dateTitle {
+  @include heading-style;
+  font-size: $font-size-xl;
+  color: $color-text-accent;
+  margin-bottom: $spacing-4;
+  border-bottom: 2px solid $color-border;
+  padding-bottom: $spacing-2;
+}
+
+.sessionCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: $spacing-4;
+}
+
+.sessionCard {
+  background-color: $color-background-light;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-sm;
+  padding: $spacing-4;
+  transition: all $transition-duration-fast $transition-timing-ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-$spacing-1);
+    box-shadow: $shadow-md;
+  }
+}
+
+.sessionTitle {
+  @include heading-style;
+  font-size: $font-size-lg;
+  margin-bottom: $spacing-2;
+}
+
+.sessionTime {
+  @include body-style;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.loadingContainer {
+  @include flex-center;
+  height: 100vh;
+}
+
+.loadingSpinner {
+  width: $spacing-12;
+  height: $spacing-12;
+  border: 4px solid $color-border;
+  border-top: 4px solid $color-primary;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.newSessionCard {
+    @include card-style;
+    background: $gradient-primary;
+    color: $color-white;
+    padding: $spacing-6;
+    margin-bottom: $spacing-8;
+    text-align: center;
+    justify-items: center;
+    border-radius: $border-radius-lg;
+    transition: all $transition-duration-fast $transition-timing-ease;
+  
+    h2 {
+color: white;
+      font-size: $font-size-xl;
+      margin-bottom: $spacing-2;
+    }
+  
+    p {
+
+      margin-bottom: $spacing-4;
+    }
+  }
+  
+  .newSessionButton {
+    @include button-reset;
+    background-color: $color-white;
+    color: $color-primary;
+    padding: $spacing-2 $spacing-4;
+    border-radius: $border-radius-full;
+    font-weight: $font-weight-semibold;
+    transition: all $transition-duration-fast $transition-timing-ease;
+  
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $shadow-md;
+      background-color: darken($color-white, 5%);
+    }
+  
+    &:active {
+      transform: translateY(0);
+    }
+  }
+  
+  .noSessions {
+    @include card-style;
+    padding: $spacing-6;
+    text-align: center;
+    margin-bottom: $spacing-8;
+  
+    p {
+      @include body-style;
+      font-size: $font-size-lg;
+      color: $color-text-secondary;
+    }
+  }
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (prefers-color-scheme: dark) {
+  .sessionsPage {
+    background-color: $color-background-dark;
+    color: $color-text-dark;
+  }
+
+  .sessionCard {
+    background-color: $color-card-background-dark;
+  }
+  .newSessionCard {
+    background: $gradient-accent;
+  }
+
+  .newSessionButton {
+    background-color: $color-background-dark;
+    color: $color-text-dark;
+
+    &:hover {
+      background-color: lighten($color-background-dark, 10%);
+    }
+  }
+
+  .noSessions {
+    background-color: $color-card-background-dark;
+
+    p {
+      color: $color-text-dark;
+    }
+  }
+}

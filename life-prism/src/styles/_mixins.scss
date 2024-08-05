@@ -1,0 +1,379 @@
+@import 'variables'; // Import variables to use throughout the mixins
+
+// Flexbox Centering
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Flexbox Column
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Glass Effect (Different from Glassmorphism)
+@mixin glass-effect {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: $border-radius-md;
+}
+
+// Scrollbar Styling
+@mixin scrollbar {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: $border-radius-full;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: $border-radius-full;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+// Generate CSS Variables from a Theme Map
+@mixin generate-theme-variables($theme-map) {
+  @each $key, $value in $theme-map {
+    --#{$key}: #{$value};
+  }
+}
+
+// Font Smoothing for Improved Text Rendering
+@mixin font-smoothing {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Button Reset for Removing Default Styles
+@mixin button-reset {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+// Responsive Typography for Fluid Font Sizes
+@mixin responsive-font-size($min-size, $max-size, $min-width: $breakpoint-sm, $max-width: $breakpoint-xl) {
+  font-size: $min-size;
+
+  @media (min-width: $min-width) {
+    font-size: calc(#{$min-size} + #{strip-unit($max-size - $min-size)} * ((100vw - #{$min-width}) / #{strip-unit($max-width - $min-width)}));
+  }
+
+  @media (min-width: $max-width) {
+    font-size: $max-size;
+  }
+}
+
+// Heading Style for Consistent Typography
+@mixin heading-style {
+  font-family: $font-family-heading;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  color: $color-text-primary;
+}
+
+// Body Style for Paragraphs and General Text
+@mixin body-style {
+  font-family: $font-family-body;
+  font-weight: $font-weight-normal;
+  line-height: $line-height-normal;
+  color: $color-text-secondary;
+}
+
+// Media Queries: Respond to Min-Width Breakpoints
+@mixin respond-to($breakpoint) {
+  @media (min-width: $breakpoint) {
+    @content;
+  }
+}
+
+// Media Queries: Respond to Max-Width Breakpoints
+@mixin media-breakpoint-down($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (max-width: map-get($breakpoints, $breakpoint) - 1) {
+      @content;
+    }
+  } @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. Available breakpoints are: #{map-keys($breakpoints)}.";
+  }
+}
+
+// Glassmorphism Style with Blurred Background
+@mixin glassmorphism {
+  background: $glass-background;
+  backdrop-filter: $glass-backdrop-filter;
+  border: $glass-border;
+  box-shadow: $glass-shadow;
+}
+
+// Gradient Text for Vibrant Typography
+@mixin gradient-text($gradient) {
+  background: $gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+// Text Truncation for Overflowing Content
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Fade-In Animation for Smooth Appearance
+@mixin fade-in($duration: $transition-duration-normal) {
+  animation: fadeIn $duration $transition-timing-ease;
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+}
+
+// Slide-Up Animation for Smooth Entrance
+@mixin slide-up($duration: $transition-duration-normal) {
+  animation: slideUp $duration $transition-timing-ease;
+  @keyframes slideUp {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+}
+
+// Hover Lift Effect for Interactive Elements
+@mixin hover-lift {
+  transition: transform $transition-duration-fast $transition-timing-ease;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+}
+
+// Focus Styles for Improved Accessibility
+@mixin focus-outline {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba($color-teal-light, 0.5);
+}
+
+// Custom Scrollbar for Better Aesthetics
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: rgba($color-gray-light, 0.1);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba($color-gray-medium, 0.5);
+    border-radius: $border-radius-full;
+
+    &:hover {
+      background-color: $color-gray-medium;
+    }
+  }
+}
+
+// Visually Hidden Elements for Accessibility
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Card Style for Consistent Layouts
+@mixin card-style {
+  background-color: $color-card-background;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-md;
+  transition: all $transition-duration-normal $transition-timing-ease;
+}
+
+// Interactive Element Styles for Hover Effects
+@mixin interactive-element {
+  cursor: pointer;
+  transition: all $transition-duration-fast $transition-timing-ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+// Container for Centering Content
+@mixin container {
+  width: 100%;
+  max-width: map-get($container-max-widths, 'xl');
+  margin: 0 auto;
+  padding: 0 $spacing-sm; // Smaller padding for mobile
+  align-items:center;
+
+  @include respond-to('sm') {
+    padding: 0 $spacing-md;
+  }
+
+  @include respond-to('md') {
+    padding: 0 $spacing-lg;
+  }
+
+  @include respond-to('lg') {
+    padding: 0 $spacing-xl;
+  }
+}
+
+// Button Gradient Effect for Stylish Buttons
+@mixin button-gradient($start-color, $end-color) {
+  background: linear-gradient(to right, $start-color, $end-color);
+
+  &:hover {
+    background: linear-gradient(to right, darken($start-color, 10%), darken($end-color, 10%));
+  }
+}
+
+// Gradient Text with Predefined Gradients
+@mixin gradient-text($gradient) {
+  background: $gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+// Gradient Text with Custom Colors
+@mixin gradient-text-custom($start-color, $end-color) {
+  background: linear-gradient(to right, $start-color, $end-color);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+// Aspect Ratio Box for Responsive Media
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+
+  &:before {
+    content: "";
+    display: block;
+    padding-top: ($height / $width) * 100%;
+  }
+
+  > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// Grid Layout for Flexibility
+@mixin grid($columns: 12, $gap: $grid-gutter-width) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gap;
+}
+
+// Text Style Mixin for Consistent Styling
+@mixin text-style($size, $weight: normal, $line-height: normal) {
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line-height;
+}
+
+// Box Shadow Levels for Depth
+@mixin box-shadow($level: 'md') {
+  @if $level == 'sm' {
+    box-shadow: $shadow-sm;
+  } @else if $level == 'md' {
+    box-shadow: $shadow-md;
+  } @else if $level == 'lg' {
+    box-shadow: $shadow-lg;
+  } @else if $level == 'xl' {
+    box-shadow: $shadow-xl;
+  } @else if $level == '2xl' {
+    box-shadow: $shadow-2xl;
+  } @else {
+    @warn "Invalid shadow level: #{$level}. Choose from: sm, md, lg, xl, 2xl";
+  }
+}
+
+// Transition for Smooth State Changes
+@mixin transition($properties...) {
+  $result: ();
+
+  @each $property in $properties {
+    $result: append($result, $property $transition-duration-normal $transition-timing-ease, comma);
+  }
+
+  transition: $result;
+}
+
+// Responsive Font Size Calculation
+@mixin responsive-font-size($min-size, $max-size, $min-width: $breakpoint-sm, $max-width: $breakpoint-xl) {
+  font-size: $min-size;
+
+  @media (min-width: $min-width) {
+    font-size: calc(#{$min-size} + #{strip-unit($max-size - $min-size)} * ((100vw - #{$min-width}) / #{strip-unit($max-width - $min-width)}));
+  }
+
+  @media (min-width: $max-width) {
+    font-size: $max-size;
+  }
+}
+
+// Theme-Aware Styles for Light and Dark Modes
+@mixin theme-aware($property, $light-value, $dark-value) {
+  #{$property}: $light-value;
+
+  @media (prefers-color-scheme: dark) {
+    #{$property}: $dark-value;
+  }
+}
+
+// Retina Image Support for High-Resolution Screens
+@mixin retina-image($image, $width, $height) {
+  background-image: url($image);
+  background-size: $width $height;
+
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    background-image: url(str-replace($image, ".", "@2x."));
+  }
+}
+
+// String Replace Function for Helper Use
+@function str-replace($string, $search, $replace: "") {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+
+  @return $string;
+}

@@ -1,0 +1,153 @@
+@import '@/styles/variables';
+@import '@/styles/mixins';
+@import '@/styles/functions';
+
+.timer {
+  @include flex-center;
+  @include card-style;
+  @include glassmorphism;
+  padding: $spacing-4 $spacing-6;
+  border-radius: $border-radius-lg;
+  background: $gradient-primary;
+  color: $color-white;
+  font-family: $font-family-heading;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba($color-black, 0.1);
+  box-shadow: $shadow-lg;
+  transition: all $transition-duration-normal $transition-timing-ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba($color-white, 0.1) 0%, rgba($color-white, 0) 70%);
+    animation: pulse 4s linear infinite;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-xl;
+  }
+}
+
+.timeRemaining {
+  position: relative;
+  z-index: 1;
+}
+
+.timeUnit {
+  display: inline-block;
+  min-width: 2.5em;
+  text-align: center;
+  position: relative;
+
+  &::after {
+    content: ':';
+    position: absolute;
+    right: -0.3em;
+    opacity: 0.7;
+  }
+
+  &:last-child::after {
+    content: none;
+  }
+}
+
+.label {
+  display: block;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-normal;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: $spacing-1;
+  opacity: 0.7;
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.95);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0.95);
+    opacity: 0.6;
+  }
+}
+
+.warningState {
+  animation: warningPulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes warningPulse {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.criticalState {
+  animation: criticalPulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes criticalPulse {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.05);
+  }
+}
+
+// Responsive adjustments
+@include respond-to($breakpoint-md) {
+  .timer {
+    font-size: $font-size-2xl;
+    padding: $spacing-6 $spacing-8;
+  }
+
+  .label {
+    font-size: $font-size-sm;
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .timer {
+    background: $gradient-accent;
+    color: $color-off-black;
+    text-shadow: 0 1px 2px rgba($color-white, 0.1);
+  }
+}
+
+// Accessibility
+@media (prefers-reduced-motion: reduce) {
+  .timer,
+  .timer::before,
+  .warningState,
+  .criticalState {
+    animation: none;
+  }
+}
+
+// Print styles
+@media print {
+  .timer {
+    background: none !important;
+    color: $color-black !important;
+    box-shadow: none !important;
+    border: 1px solid $color-border;
+  }
+}

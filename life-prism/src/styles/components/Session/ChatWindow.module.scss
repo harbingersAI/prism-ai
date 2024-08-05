@@ -1,0 +1,84 @@
+@import '@/styles/variables';
+@import '@/styles/mixins';
+
+.chatWindow {
+  @include card-style;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - #{$header-height} - #{$footer-height} - #{$spacing-16});
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.messageList {
+  flex: 1;
+  overflow-y: auto;
+  padding: $spacing-4;
+  @include custom-scrollbar;
+}
+
+.message {
+  margin-bottom: $spacing-3;
+  padding: $spacing-2 $spacing-3;
+  background-color: rgba($color-purple-light, 0.1);
+  border-radius: $border-radius-md;
+  display: flex;
+  flex-direction: column;
+}
+
+.ownMessage {
+  background-color: $color-purple-light;
+}
+
+.systemMessage {
+  background-color: $color-gray-light;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.messageContent {
+  padding: $spacing-2 0;
+}
+
+.timestamp {
+  align-self: flex-end;
+  color: $color-gray-dark;
+  font-size: $font-size-sm;
+  display: none; // Hides the timestamp visually
+}
+
+.inputForm {
+  display: flex;
+  padding: $spacing-4;
+  border-top: 1px solid $color-border;
+}
+
+.inputField {
+  flex: 1;
+  padding: $spacing-2 $spacing-3;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-md;
+  font-size: $font-size-md;
+
+  &:focus {
+    outline: none;
+    border-color: $color-purple-medium;
+  }
+}
+
+.sendButton {
+  @include button-reset;
+  margin-left: $spacing-2;
+  padding: $spacing-2 $spacing-4;
+  background-color: $color-purple-medium;
+  color: $color-white;
+  font-weight: $font-weight-semibold;
+  border-radius: $border-radius-md;
+  transition: background-color $transition-duration-fast $transition-timing-ease;
+
+  &:hover {
+    background-color: darken($color-purple-medium, 10%);
+  }
+}

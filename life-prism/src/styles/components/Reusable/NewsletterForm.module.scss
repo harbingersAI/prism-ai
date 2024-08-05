@@ -1,0 +1,107 @@
+@import '@/styles/variables';
+@import '@/styles/mixins';
+
+.newsletterForm {
+  @include card-style;
+  padding: $spacing-6;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.form {
+  @include flex-column;
+  gap: $spacing-4;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.inputIcon {
+  position: absolute;
+  left: $spacing-3;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-secondary);
+  font-size: $font-size-lg;
+}
+
+.input {
+  @include body-style;
+  width: 100%;
+  padding: $spacing-3 $spacing-3 $spacing-3 $spacing-10;
+  border: 1px solid var(--color-border);
+  border-radius: $border-radius-md;
+  background-color: var(--color-input-background);
+  color: var(--color-text-primary);
+  transition: all $transition-duration-fast $transition-timing-ease;
+
+  &::placeholder {
+    color: var(--color-text-placeholder);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+}
+
+.submitButton {
+  @include interactive-element;
+  padding: $spacing-3 $spacing-6;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  font-weight: $font-weight-semibold;
+  border: none;
+  border-radius: $border-radius-md;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.message {
+  @include flex-center;
+  margin-top: $spacing-4;
+  padding: $spacing-3;
+  border-radius: $border-radius-md;
+  font-weight: $font-weight-medium;
+
+  svg {
+    margin-right: $spacing-2;
+  }
+}
+
+.successMessage {
+  background-color: var(--color-success-background);
+  color: var(--color-success-text);
+}
+
+.errorMessage {
+  background-color: var(--color-error-background);
+  color: var(--color-error-text);
+}
+
+// Dark mode adjustments
+@media (prefers-color-scheme: dark) {
+  .input {
+    background-color: var(--color-input-background-dark);
+    border-color: var(--color-border-dark);
+  }
+
+  .submitButton {
+    background-color: var(--color-primary-dark);
+  }
+}
+
+// Accessibility
+@media (prefers-reduced-motion: reduce) {
+  .newsletterForm,
+  .input,
+  .submitButton,
+  .message {
+    transition: none;
+  }
+}

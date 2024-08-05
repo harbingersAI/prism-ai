@@ -1,0 +1,299 @@
+@import '@/styles/variables';
+@import '@/styles/mixins';
+
+.main {
+  @include container;
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-16 0;
+  margin-top: -3rem;
+  @include media-breakpoint-down('md') {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.heroContent {
+  flex: 1;
+  max-width: 600px;
+  
+  @include media-breakpoint-down('md') {
+    margin-bottom: $spacing-8;
+  }
+}
+
+.title {
+  @include heading-style;
+  @include responsive-font-size($font-size-3xl, $font-size-4xl);
+  margin-bottom: $spacing-4;
+  
+  .gradient {
+    @include gradient-text($gradient-primary);
+  }
+}
+
+.description {
+  @include body-style;
+  font-size: $font-size-lg;
+  margin-bottom: $spacing-6;
+}
+
+.ctaContainer {
+  display: flex;
+  gap: $spacing-4;
+  align-items: center;
+  
+  @include media-breakpoint-down('sm') {
+    flex-direction: column;
+  }
+}
+
+.heroImage {
+  flex: 1;
+  max-width: 500px;
+  
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.sectionTitle {
+  @include heading-style;
+  font-size: $font-size-2xl;
+  text-align: center;
+  margin-bottom: $spacing-8;
+}
+
+.features {
+  padding: $spacing-16 0;
+  background-color: $color-background-light;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: $spacing-6;
+}
+
+.howItWorks {
+  padding: $spacing-16 0;
+}
+
+.steps {
+  display: flex;
+  justify-content: space-between;
+  gap: $spacing-6;
+  
+  @include media-breakpoint-down('md') {
+    flex-direction: column;
+  }
+}
+
+.step {
+  flex: 1;
+  text-align: center;
+  
+  .stepNumber {
+    @include flex-center;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto $spacing-4;
+    border-radius: $border-radius-full;
+    background: $gradient-primary;
+    color: $color-white;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+  }
+  
+  h3 {
+    @include heading-style;
+    font-size: $font-size-xl;
+    margin-bottom: $spacing-2;
+  }
+  
+  p {
+    @include body-style;
+  }
+}
+
+.cta {
+  text-align: center;
+  padding: $spacing-16 0;
+  background: $gradient-primary;
+  color: $color-white;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+    pointer-events: none;
+  }
+}
+
+.ctaTitle {
+  @include heading-style;
+  font-size: $font-size-3xl;
+  margin-bottom: $spacing-4;
+  position: relative;
+  z-index: 1;
+  color:white;
+}
+
+.ctaDescription {
+  justify-content: center;
+  
+  align-items: center;
+  left:8rem;
+  @include body-style;
+  font-size: $font-size-lg;
+  margin-bottom: $spacing-6;
+  position: relative;
+  z-index: 1;
+  @include media-breakpoint-down('md') {
+
+    left: 0rem;
+  }
+}
+
+.faq {
+  padding: $spacing-16 0;
+}
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: $spacing-6;
+}
+
+.faqItem {
+  h3 {
+    @include heading-style;
+    font-size: $font-size-lg;
+    margin-bottom: $spacing-2;
+  }
+  
+  p {
+    @include body-style;
+  }
+}
+
+.finalCta {  align-items: center;
+  
+  text-align: center;
+  padding: $spacing-16 0;
+  background-color: $color-background-light;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba($color-purple-light, 0.1) 0%, rgba($color-teal-light, 0.1) 100%);
+    pointer-events: none;
+  }
+}
+
+.finalCtaTitle {
+  @include heading-style;
+  font-size: $font-size-2xl;
+  margin-bottom: $spacing-4;
+  position: relative;
+  z-index: 1;
+  color: $color-purple-dark;
+}
+
+.finalCtaDescription {
+  @include body-style;
+  font-size: $font-size-lg;
+  margin-bottom: $spacing-6;
+  position: relative;
+  z-index: 1;
+  color: $color-text-secondary;
+  left: 8rem;
+  @include media-breakpoint-down('md') {
+
+    left: 0rem;
+  }
+}
+
+.gradientButton {
+  @include button-reset;
+  padding: $spacing-3 $spacing-6;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-white;
+  background: $gradient-primary;
+  border-radius: $border-radius-full;
+  transition: all $transition-duration-normal $transition-timing-ease;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+    transition: transform $transition-duration-normal $transition-timing-ease;
+  }
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+    
+    &::before {
+      transform: translateX(100%);
+    }
+  }
+  
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+.ctaWrapper {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animatedBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, $color-purple-dark, $color-teal-medium, $color-purple-light);
+  background-size: 200% 200%;
+  animation: gradientFlow 15s ease infinite;
+  opacity: 0.1;
+  pointer-events: none;
+}

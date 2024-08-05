@@ -1,0 +1,19 @@
+@import '@/styles/variables';
+@import '@/styles/mixins';
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+margin-top: 80px;
+
+}
+
+.main {
+  flex: 1 0 auto;
+  padding: $spacing-8 0;padding: 0.5rem; margin-right: 1.5rem;
+display: flex;
+  @include respond-to($breakpoint-md) {
+    padding: $spacing-16 0;
+  }
+}

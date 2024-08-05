@@ -1,0 +1,204 @@
+// AuthForm.module.scss
+@import '@/styles/variables';
+@import '@/styles/mixins';
+
+.authForm {
+  flex: 1;
+  padding: $spacing-6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+  @include respond-to('md') {
+    padding: $spacing-8;
+  }
+  
+  h2 {
+    @include heading-style;
+    font-size: $font-size-xl;
+    color: $color-text-accent;
+    margin-bottom: $spacing-6;
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn $animation-duration-normal $animation-timing-ease-out 0.2s forwards;
+
+    @include respond-to('md') {
+      font-size: $font-size-2xl;
+      text-align: left;
+    }
+  }
+}
+
+.inputGroup {
+  margin-bottom: $spacing-4;
+  opacity: 0;
+  animation: fadeIn $animation-duration-normal $animation-timing-ease-out 0.4s forwards;
+
+  label {
+    display: block;
+    margin-bottom: $spacing-2;
+    font-weight: $font-weight-medium;
+    color: $color-text-secondary;
+    transition: color $transition-duration-fast $transition-timing-ease;
+  }
+
+  input {
+    width: 100%;
+    padding: $spacing-3;
+    border: 2px solid $color-border;
+    border-radius: $border-radius-md;
+    font-size: $font-size-md;
+    transition: all $transition-duration-fast $transition-timing-ease;
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.2);
+
+      & + label {
+        color: $color-primary;
+      }
+    }
+
+    &::placeholder {
+      color: lightgray;
+    }
+  }
+}
+
+.error {
+  color: $color-danger;
+  margin-bottom: $spacing-4;
+  font-size: $font-size-sm;
+  opacity: 0;
+  animation: shake $animation-duration-fast $animation-timing-ease-in-out forwards;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+
+.submitButton {
+  @include button-reset;
+  width: 100%;
+  padding: $spacing-3 $spacing-4;
+  background-color: $color-primary;
+  color: $color-white;
+  font-weight: $font-weight-semibold;
+  border-radius: $border-radius-md;
+  font-size: $font-size-lg;
+  transition: all $transition-duration-fast $transition-timing-ease;
+  opacity: 0;
+  animation: fadeIn $animation-duration-normal $animation-timing-ease-out 0.6s forwards;
+
+  &:hover {
+    background-color: darken($color-primary, 10%);
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+  }
+
+  &:active {
+    transform: translateY(1px);
+    box-shadow: $shadow-sm;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.3);
+  }
+}
+
+.switchButton {
+  @include button-reset;
+  display: block;
+  width: 100%;
+  margin-top: $spacing-4;
+  color: $color-text-accent;
+  font-weight: $font-weight-medium;
+  text-align: center;
+  transition: all $transition-duration-fast $transition-timing-ease;
+  opacity: 0;
+  animation: fadeIn $animation-duration-normal $animation-timing-ease-out 0.8s forwards;
+
+  &:hover {
+    color: $color-primary;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.2);
+  }
+}
+
+.formDivider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: $spacing-6 0;
+  opacity: 0;
+  animation: fadeIn $animation-duration-normal $animation-timing-ease-out 0.7s forwards;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid $color-border;
+  }
+
+  &::before {
+    margin-right: $spacing-3;
+  }
+
+  &::after {
+    margin-left: $spacing-3;
+  }
+}
+
+.socialLogin {
+  display: flex;
+  justify-content: center;
+  gap: $spacing-4;
+  margin-bottom: $spacing-6;
+  opacity: 0;
+  animation: fadeIn $animation-duration-normal $animation-timing-ease-out 0.9s forwards;
+
+  button {
+    @include button-reset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: $border-radius-full;
+    background-color: $color-off-white;
+    transition: all $transition-duration-fast $transition-timing-ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $shadow-md;
+    }
+
+    &:active {
+      transform: translateY(1px);
+      box-shadow: $shadow-sm;
+    }
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}

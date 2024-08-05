@@ -1,0 +1,158 @@
+// Function to strip units from a value
+@function strip-unit($value) {
+  @return $value / ($value * 0 + 1);
+}
+
+// Function to convert px to rem
+@function px-to-rem($px) {
+  $rem: $px / 16; // Assuming base font-size is 16px
+  @return #{$rem}rem;
+}
+
+// Function to lighten a color by a given percentage
+@function lighten-color($color, $percentage) {
+  @return lighten($color, $percentage);
+}
+
+// Function to darken a color by a given percentage
+@function darken-color($color, $percentage) {
+  @return darken($color, $percentage);
+}
+
+// Function to create a tint of a color (mix with white)
+@function tint($color, $percentage) {
+  @return mix(white, $color, $percentage);
+}
+
+// Function to create a shade of a color (mix with black)
+@function shade($color, $percentage) {
+  @return mix(black, $color, $percentage);
+}
+
+// Function to get a color from a map
+@function color($key) {
+  @return map-get($colors, $key);
+}
+
+// Function to get a spacing value from the spacing map
+@function spacing($key) {
+  @return map-get($spacing-map, $key);
+}
+
+// Function to get a z-index value from the z-index map
+@function z-index($key) {
+  @return map-get($z-index-levels, $key);
+}
+
+// Function to get a breakpoint value from the breakpoints map
+@function breakpoint($key) {
+  @return map-get($breakpoints, $key);
+}
+
+// Function to get RGB values from a color
+@function get-rgb($color) {
+  @return red($color), green($color), blue($color);
+}
+
+// Function to create a linear gradient
+@function linear-gradient($direction, $color-stops...) {
+  @return linear-gradient($direction, $color-stops);
+}
+
+// Function to create an rgba color with variable opacity
+@function rgba-color($color, $opacity) {
+  @return rgba($color, $opacity);
+}
+
+// Function to calculate contrast ratio between two colors
+@function contrast-ratio($background, $foreground) {
+  $l1: luminance($background);
+  $l2: luminance($foreground);
+
+  @if $l1 > $l2 {
+    @return ($l1 + 0.05) / ($l2 + 0.05);
+  } @else {
+    @return ($l2 + 0.05) / ($l1 + 0.05);
+  }
+}
+
+// Function to calculate the luminance of a color
+@function luminance($color) {
+  $rgb: (
+    'red': red($color),
+    'green': green($color),
+    'blue': blue($color)
+  );
+
+  @each $name, $value in $rgb {
+    $value: $value / 255;
+
+    @if $value < 0.03928 {
+      $value: $value / 12.92;
+    } @else {
+      $value: ($value + 0.055) / 1.055;
+      $value: pow($value, 2.4);
+    }
+
+    $rgb: map-merge($rgb, ($name: $value));
+  }
+
+  @return (map-get($rgb, 'red') * .2126) + (map-get($rgb, 'green') * .7152) + (map-get($rgb, 'blue') * .0722);
+}
+
+// Helper function to calculate power of a number
+@function pow($number, $exponent) {
+  $value: 1;
+
+  @if $exponent > 0 {
+    @for $i from 1 through $exponent {
+      $value: $value * $number;
+    }
+  } @else if $exponent < 0 {
+    @for $i from 1 through -$exponent {
+      $value: $value / $number;
+    }
+  }
+
+  @return $value;
+}
+
+// Function to convert a hex color to RGBA with opacity
+@function hex-to-rgba($hex, $opacity) {
+  @return rgba(
+    red($hex),
+    green($hex),
+    blue($hex),
+    $opacity
+  );
+}
+
+// Function to convert rem to px
+@function rem-to-px($rem) {
+  @return #{$rem * 16}px; // Assuming base font-size is 16px
+}
+
+// Function to adjust hue of a color
+@function adjust-hue-color($color, $degrees) {
+  @return adjust-hue($color, $degrees);
+}
+
+// Function to saturate a color
+@function saturate-color($color, $percentage) {
+  @return saturate($color, $percentage);
+}
+
+// Function to desaturate a color
+@function desaturate-color($color, $percentage) {
+  @return desaturate($color, $percentage);
+}
+
+// Function to invert a color
+@function invert-color($color) {
+  @return invert($color);
+}
+
+// Function to convert px to em
+@function px-to-em($px, $base-font-size: 16px) {
+  @return #{$px / strip-unit($base-font-size)}em;
+}

@@ -1,0 +1,136 @@
+@import '@/styles/variables';
+@import '@/styles/mixins';
+
+.footer {
+  background-color: $color-purple-dark;
+  color: $color-off-white;
+  padding: $spacing-12 0;
+}
+
+.container {
+  @include container;
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: $spacing-12;
+
+  @include respond-to($breakpoint-md) {
+    flex-wrap: nowrap;
+  }
+}
+
+.branding {
+  flex-basis: 100%;
+  margin-bottom: $spacing-8;
+
+  @include respond-to($breakpoint-md) {
+    flex-basis: auto;
+    margin-bottom: 0;
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  margin-bottom: $spacing-4;
+}
+
+.logoText {
+  @include heading-style;
+  font-size: $font-size-2xl;
+  color: $color-off-white;
+  margin-left: $spacing-2;
+}
+
+.tagline {
+  @include body-style;
+  color: $color-teal-light;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-8;
+
+  @include respond-to($breakpoint-lg) {
+    gap: $spacing-16;
+  }
+}
+
+.navColumn {
+  flex-basis: calc(50% - #{$spacing-4});
+
+  @include respond-to($breakpoint-md) {
+    flex-basis: auto;
+  }
+
+  h3 {
+    @include heading-style;
+    font-size: $font-size-lg;
+    color: $color-teal-light;
+    margin-bottom: $spacing-4;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    margin-bottom: $spacing-2;
+  }
+
+  a {
+    color: $color-off-white;
+    text-decoration: none;
+    transition: color $transition-duration-fast $transition-timing-ease;
+
+    &:hover {
+      color: $color-teal-light;
+    }
+  }
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-top: 1px solid rgba($color-off-white, 0.1);
+  padding-top: $spacing-8;
+
+  @include respond-to($breakpoint-md) {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+.copyright, .hackathonInfo {
+  margin-bottom: $spacing-4;
+  font-size: $font-size-sm;
+
+  @include respond-to($breakpoint-md) {
+    margin-bottom: 0;
+  }
+}
+
+.social {
+  display: flex;
+  gap: $spacing-4;
+
+  a {
+    color: $color-off-white;
+    font-size: $font-size-xl;
+    transition: color $transition-duration-fast $transition-timing-ease;
+
+    &:hover {
+      color: $color-teal-light;
+    }
+  }
+}

@@ -1,0 +1,27 @@
+@import '@/styles/variables';
+@import '@/styles/mixins';
+
+.chatPage {
+  @include container;
+  padding-top: $spacing-8;
+  min-height: calc(100vh - #{$header-height} - #{$footer-height});
+}
+
+.loading {
+  @include flex-center;
+  min-height: calc(100vh - #{$header-height} - #{$footer-height});
+  font-size: $font-size-xl;
+  color: $color-text-secondary;
+}
+
+.newChatContainer {
+  @include flex-center;
+  flex-direction: column;
+  min-height: calc(100vh - #{$header-height} - #{$footer-height});
+
+  h1 {
+    @include heading-style;
+    font-size: $font-size-3xl;
+    margin-bottom: $spacing-6;
+  }
+}

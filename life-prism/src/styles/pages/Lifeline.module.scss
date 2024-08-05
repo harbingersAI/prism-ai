@@ -1,0 +1,160 @@
+@import '@/styles/variables';
+
+.lifelineContainer {
+  max-width: 800px;
+
+  margin: 0 auto;  margin-top: -6rem;
+  padding: $spacing-6;
+  font-family: $font-family-body;
+  color: $color-text-primary;
+  background-color: $color-background-light;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  font-family: $font-family-heading;
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-accent;
+  margin-bottom: $spacing-4;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: $font-size-lg;
+  color: $color-text-secondary;
+  margin-bottom: $spacing-6;
+  text-align: center;
+}
+
+.messageBox {
+  background: $gradient-primary;
+  border-radius: $border-radius-lg;
+  padding: $spacing-6;
+  margin-bottom: $spacing-8;
+  color: $color-text-dark;
+  text-align: center;
+  box-shadow: $shadow-lg;
+
+  p {
+    margin-bottom: $spacing-3;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-medium;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.hotlineCard {
+  background-color: $color-card-background;
+  border-radius: $border-radius-lg;
+  padding: $spacing-6;
+  margin-bottom: $spacing-8;
+  width: 100%;
+  box-shadow: $shadow-md;
+
+  h2 {
+    font-family: $font-family-heading;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    color: $color-text-accent;
+    margin-bottom: $spacing-4;
+  }
+}
+
+.hotlineInfo {
+  margin-bottom: $spacing-4;
+
+  p {
+    font-size: $font-size-md;
+    margin-bottom: $spacing-2;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+
+    li {
+      margin-bottom: $spacing-2;
+    }
+
+    a {
+      color: $color-accent;
+      text-decoration: none;
+      font-weight: $font-weight-medium;
+      transition: color $transition-duration-fast $transition-timing-ease;
+
+      &:hover {
+        color: darken($color-accent, 10%);
+      }
+    }
+  }
+}
+
+.searchContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.searchInput {
+  width: 100%;
+  height: $input-height;
+  padding: $input-padding-y $input-padding-x;
+  font-size: $font-size-md;
+  border: $input-border-width solid $color-border;
+  border-radius: $input-border-radius;
+  margin-bottom: $spacing-4;
+  transition: border-color $transition-duration-fast $transition-timing-ease;
+
+  &:focus {
+    outline: none;
+    border-color: $color-accent;
+  }
+}
+
+.searchButton {
+  background-color: $color-accent;
+  color: $color-text-dark;
+  border: none;
+  padding: $button-padding-y $button-padding-x;
+  font-size: $button-font-size;
+  font-weight: $font-weight-medium;
+  border-radius: $button-border-radius;
+  cursor: pointer;
+  transition: background-color $transition-duration-fast $transition-timing-ease;
+
+  &:hover {
+    background-color: darken($color-accent, 10%);
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .lifelineContainer {
+    padding: $spacing-4;
+  }
+
+  .title {
+    font-size: $font-size-2xl;
+  }
+
+  .subtitle {
+    font-size: $font-size-md;
+  }
+
+  .messageBox {
+    padding: $spacing-4;
+  }
+
+  .hotlineCard {
+    padding: $spacing-4;
+  }
+}

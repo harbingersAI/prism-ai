@@ -1,0 +1,317 @@
+@import '@/styles/variables';
+@import '@/styles/mixins';
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: $z-index-fixed;
+  transition: all $transition-duration-normal $transition-timing-ease;
+  padding: 1rem;
+  right: 1rem;
+  &.scrolled {
+    background-color: rgba($color-white, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: $shadow-md;
+  }
+}
+
+.container {
+  @include flex-center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: map-get($container-max-widths, 'xl');
+  margin: 0 auto;
+  padding: $spacing-2 $spacing-3;
+  height: $header-height;
+
+  @include respond-to($breakpoint-md) {
+    padding: $spacing-4 $spacing-6;
+  }
+}
+
+.logo {
+  @include flex-center;
+  text-decoration: none;
+  margin-right: $spacing-2;
+  
+  img {
+    transition: transform $transition-duration-fast $transition-timing-ease;
+  }
+}
+
+.logoText {
+  @include heading-style;
+  @include responsive-font-size($font-size-lg, $font-size-xl);
+  color: $color-purple-dark;
+  margin-left: $spacing-2;
+  @include gradient-text($gradient-primary);
+}
+
+.desktopNav {
+  display: none;
+  
+  @include respond-to($breakpoint-md) {
+    @include flex-center;
+    gap: $spacing-6;
+  }
+}
+
+.navItem {
+  @include body-style;
+  @include responsive-font-size($font-size-sm, $font-size-md);
+  color: $color-text-light;
+  text-decoration: none;
+  transition: color $transition-duration-fast $transition-timing-ease;
+  position: relative;
+  
+  &:hover, &:focus {
+    color: $color-purple-medium;
+  }
+  
+  &.active {
+    color: $color-purple-dark;
+    font-weight: $font-weight-semibold;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -$spacing-2;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: $gradient-primary;
+      border-radius: $border-radius-full;
+    }
+  }
+}
+
+.actions {
+  @include flex-center;
+  gap: $spacing-4;
+  margin-left: $spacing-2;
+}
+
+.loginButton, .signupButton {
+  @include flex-center;
+  padding: $spacing-1 $spacing-2;
+  border-radius: $border-radius-full;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  text-decoration: none;
+  transition: all $transition-duration-fast $transition-timing-ease;
+  
+  @include respond-to($breakpoint-md) {
+    padding: $spacing-2 $spacing-4;
+  }
+  
+  &:hover, &:focus {
+    transform: translateY(-2px);
+  }
+}
+
+.loginButton {
+  color: $color-purple-dark;
+  background-color: transparent;
+  border: 1px solid $color-purple-light;
+  
+  &:hover, &:focus {
+    background-color: rgba($color-purple-light, 0.1);
+  }
+  
+  svg {
+    margin-right: $spacing-2;
+  }
+}
+
+.signupButton {
+  color: $color-white;
+  background: $gradient-primary;
+  box-shadow: $shadow-sm;
+  
+  &:hover, &:focus {
+    box-shadow: $shadow-md;
+  }
+}
+
+.mobileMenuButton {
+  @include button-reset;
+  @include flex-center;
+  width: 32px;
+  height: 32px;
+  border-radius: $border-radius-full;
+  background-color: rgba($color-purple-light, 0.1);
+  color: $color-purple-dark;
+  font-size: $font-size-xl;
+  transition: all $transition-duration-fast $transition-timing-ease;
+  
+  &:hover, &:focus {
+    background-color: rgba($color-purple-light, 0.2);
+  }
+  
+  @include respond-to($breakpoint-md) {
+    display: none;
+  }
+}
+
+.mobileNav {
+  @include flex-column;
+  position: fixed;
+  top: $header-height;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $color-white;
+  padding: $spacing-6;
+  overflow-y: auto;
+  @include custom-scrollbar;
+}
+
+.mobileNavItem {
+  @include body-style;
+  @include responsive-font-size($font-size-md, $font-size-lg);
+  color: $color-text-light;
+  text-decoration: none;
+  padding: $spacing-4 0;
+  border-bottom: 1px solid rgba($color-purple-light, 0.2);
+  transition: color $transition-duration-fast $transition-timing-ease;
+  
+  &:hover, &:focus {
+    color: $color-purple-medium;
+  }
+  
+  &.active {
+    color: $color-purple-dark;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+.mobileLoginButton, .mobileSignupButton {
+  @include flex-center;
+  width: 100%;
+  max-width: calc(100% - #{$spacing-4});
+  padding: $spacing-4;
+  margin-top: $spacing-6;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: $border-radius-lg;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  text-decoration: none;
+  transition: all $transition-duration-fast $transition-timing-ease;
+}
+
+.mobileLoginButton {
+  color: $color-purple-dark;
+  background-color: transparent;
+  border: 2px solid $color-purple-light;
+  
+  &:hover, &:focus {
+    background-color: rgba($color-purple-light, 0.1);
+  }
+}
+
+.mobileSignupButton {
+  color: $color-white;
+  background: $gradient-primary;
+  margin-top: $spacing-4;
+  
+  &:hover, &:focus {
+    opacity: 0.9;
+  }
+}
+
+// Animations
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header {
+  animation: fadeInDown 0.5s ease-out;
+}
+
+// Responsive adjustments
+@include respond-to($breakpoint-lg) {
+  .container {
+    padding: $spacing-4 $spacing-8;
+  }
+  
+  .desktopNav {
+    gap: $spacing-8;
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .header.scrolled {
+    background-color: rgba($color-off-black, 0.95);
+  }
+  
+  .logoText {
+    color: $color-off-white;
+  }
+  
+  .navItem {
+    color: $color-text-dark;
+    
+    &:hover, &:focus {
+      color: $color-teal-light;
+    }
+    
+    &.active {
+      color: $color-teal-medium;
+    }
+  }
+  
+  .loginButton {
+    color: $color-teal-light;
+    border-color: $color-teal-medium;
+    
+    &:hover, &:focus {
+      background-color: rgba($color-teal-light, 0.1);
+    }
+  }
+  
+  .mobileMenuButton {
+    background-color: rgba($color-teal-light, 0.1);
+    color: $color-teal-medium;
+    
+    &:hover, &:focus {
+      background-color: rgba($color-teal-light, 0.2);
+    }
+  }
+  
+  .mobileNav {
+    background-color: $color-off-black;
+  }
+  
+  .mobileNavItem {
+    color: $color-text-dark;
+    border-bottom-color: rgba($color-teal-light, 0.2);
+    
+    &:hover, &:focus {
+      color: $color-teal-light;
+    }
+    
+    &.active {
+      color: $color-teal-medium;
+    }
+  }
+  
+  .mobileLoginButton {
+    color: $color-teal-light;
+    border-color: $color-teal-medium;
+    
+    &:hover, &:focus {
+      background-color: rgba($color-teal-light, 0.1);
+    }
+  }
+}

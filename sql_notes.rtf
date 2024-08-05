@@ -1,0 +1,230 @@
+Make sure to run the following SQL queries in your Supabase project: 
+
+-- Create the chat_sessions table
+CREATE TABLE public.chat_sessions (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    session_uuid UUID UNIQUE NOT NULL,
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+    session_start TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    session_end TIMESTAMP WITH TIME ZONE,
+    session_chat_history JSONB DEFAULT '[]'::jsonb,
+    session_summary TEXT,
+    session_analysis TEXT,
+    session_scores JSONB,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create index on session_uuid for faster lookups
+CREATE INDEX idx_chat_sessions_session_uuid ON public.chat_sessions(session_uuid);
+
+-- Create index on user_id for faster user-based queries
+CREATE INDEX idx_chat_sessions_user_id ON public.chat_sessions(user_id);
+
+-- Enable Row Level Security
+ALTER TABLE public.chat_sessions ENABLE ROW LEVEL SECURITY;
+
+-- Create policies
+-- Allow users to read their own chat sessions
+CREATE POLICY "Users can view own chat sessions" ON public.chat_sessions
+    FOR SELECT USING (auth.uid() = user_id);
+
+-- Allow users to insert their own chat sessions
+CREATE POLICY "Users can create own chat sessions" ON public.chat_sessions
+    FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+-- Allow users to update their own chat sessions
+CREATE POLICY "Users can update own chat sessions" ON public.chat_sessions
+    FOR UPDATE USING (auth.uid() = user_id);
+
+-- Allow service role to access all chat sessions (for admin purposes)
+CREATE POLICY "Service role has full access to chat sessions" ON public.chat_sessions
+    USING (auth.role() = 'service_role');
+
+-- Function to automatically set session_end when creating a new session
+CREATE OR REPLACE FUNCTION public.set_session_end() RETURNS TRIGGER AS $$
+BEGIN
+    NEW.session_end := NEW.session_start + INTERVAL '5 minutes';
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Trigger to call set_session_end function before insert
+CREATE TRIGGER set_chat_session_end
+    BEFORE INSERT ON public.chat_sessions
+    FOR EACH ROW EXECUTE FUNCTION public.set_session_end();
+
+-- Function to update the updated_at column automatically
+CREATE OR REPLACE FUNCTION public.update_chat_sessions_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Trigger to call update_chat_sessions_updated_at function before update
+CREATE TRIGGER update_chat_sessions_updated_at
+    BEFORE UPDATE ON public.chat_sessions
+    FOR EACH ROW EXECUTE FUNCTION public.update_chat_sessions_updated_at();
+
+
+
+
+++++++++++++++++++++++++++
+
+-- Create the psychometric_profiles table
+CREATE TABLE public.psychometric_profiles (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    psych_profile_json JSONB DEFAULT '{}',
+    psych_profile_prev_json JSONB DEFAULT '{}',
+    psych_profile_summary TEXT,
+    psych_profile_prev_summary TEXT,
+    cogni_score JSONB DEFAULT '{
+        "Career/Work": 0,
+        "Finance": 0,
+        "Health/Fitness": 0,
+        "Family": 0,
+        "Relationships": 0,
+        "Personal Growth": 0,
+        "Spirituality": 0,
+        "Recreation/Leisure": 0
+    }',
+    patterns JSONB DEFAULT '[]',
+    ai_notes TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Enable Row Level Security
+ALTER TABLE public.psychometric_profiles ENABLE ROW LEVEL SECURITY;
+
+-- Create policies
+-- Allow users to read their own data
+CREATE POLICY "Users can view own psychometric profile" ON public.psychometric_profiles
+    FOR SELECT USING (auth.uid() = user_id);
+
+-- Allow users to update their own data
+CREATE POLICY "Users can update own psychometric profile" ON public.psychometric_profiles
+    FOR UPDATE USING (auth.uid() = user_id);
+
+-- Allow insert for new profiles (will be used by the function that creates profiles)
+CREATE POLICY "Service role can insert new psychometric profiles" ON public.psychometric_profiles
+    FOR INSERT WITH CHECK (TRUE);
+
+-- Create a function to handle new user profile creation
+CREATE OR REPLACE FUNCTION public.handle_new_psychometric_profile() RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO public.psychometric_profiles (user_id)
+    VALUES (NEW.id);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Create a trigger to call the function when a new user is created
+CREATE TRIGGER on_auth_user_created_psychometric_profile
+    AFTER INSERT ON auth.users
+    FOR EACH ROW EXECUTE FUNCTION public.handle_new_psychometric_profile();
+
+-- Update the updated_at column automatically
+CREATE OR REPLACE FUNCTION update_psychometric_profiles_updated_at_column() RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_psychometric_profiles_updated_at
+    BEFORE UPDATE ON public.psychometric_profiles
+    FOR EACH ROW EXECUTE FUNCTION update_psychometric_profiles_updated_at_column();
+
+
+    -- Allow the service role to read all psychometric profiles
+CREATE POLICY "Service role can view all psychometric profiles" 
+ON public.psychometric_profiles
+    FOR SELECT
+    USING (current_setting('request.jwt.claim.role') = 'service_role');
+
+-- Allow the service role to update all psychometric profiles
+CREATE POLICY "Service role can update all psychometric profiles" 
+ON public.psychometric_profiles
+    FOR UPDATE
+    USING (current_setting('request.jwt.claim.role') = 'service_role');
+
+-- Allow the service role to delete any psychometric profiles
+CREATE POLICY "Service role can delete all psychometric profiles" 
+ON public.psychometric_profiles
+    FOR DELETE
+    USING (current_setting('request.jwt.claim.role') = 'service_role');
+
+-- Create a new policy that allows full access for the service role
+CREATE POLICY "Service role has full access"
+ON public.psychometric_profiles
+USING (true)
+WITH CHECK (true);
+
+
++++++++++++++++++++++++++++++++
+
+-- Create the users_table
+CREATE TABLE public.users_table (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    email TEXT UNIQUE NOT NULL,
+    full_name TEXT,
+    username TEXT UNIQUE NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    last_login TIMESTAMP WITH TIME ZONE,
+    is_active BOOLEAN DEFAULT TRUE,
+    subscription_status TEXT DEFAULT 'free',
+    subscription_expiry TIMESTAMP WITH TIME ZONE,
+    timezone TEXT,
+    language_preference TEXT,
+    marketing_opt_in BOOLEAN DEFAULT FALSE
+);
+
+-- Enable Row Level Security
+ALTER TABLE public.users_table ENABLE ROW LEVEL SECURITY;
+
+-- Create policies
+-- Allow users to read their own data
+CREATE POLICY "Users can view own data" ON public.users_table
+    FOR SELECT USING (auth.uid() = user_id);
+
+-- Allow users to update their own data
+CREATE POLICY "Users can update own data" ON public.users_table
+    FOR UPDATE USING (auth.uid() = user_id);
+
+-- Allow insert for new users (will be used by the function that creates users)
+CREATE POLICY "Service role can insert new users" ON public.users_table
+    FOR INSERT WITH CHECK (TRUE);
+
+-- Create a function to handle new user creation
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO public.users_table (user_id, email, full_name)
+    VALUES (NEW.id, NEW.email, NEW.raw_user_meta_data->>'full_name');
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Create a trigger to call the function when a new user is created
+CREATE TRIGGER on_auth_user_created
+    AFTER INSERT ON auth.users
+    FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+
+-- Update the updated_at column automatically
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_users_table_updated_at
+    BEFORE UPDATE ON public.users_table
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
